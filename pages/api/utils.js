@@ -1,3 +1,5 @@
+import useSWR from 'swr';
+
 const requestOptions = (method = '') => () => {
   const username = process.env.USERNAME;
   const password = process.env.PASSWORD;
@@ -18,11 +20,11 @@ const appendRateLimitingHeaders = (data) => data.json().then((dataInJSON) => ({
   rateLimitRemaining: +data.headers.get('x-rate-limit-remaining')
 }));
 
-const getWithAuth = async (endpoint = 'api/v2/tickets/count') => {
+const getWithAuth = async (endpoint = '', fetchFunction = fetch) => {
   const baseURL = process.env.BASE_URL || 'https://zccpriyadarshan.zendesk.com/';
-  const data = await fetch(`${baseURL}${endpoint}`, getRequestOptions());
+  const encodedEndpoint = encodeURI(endpoint);
+  const data = await fetchFunction(`${baseURL}${encodedEndpoint}`, getRequestOptions());
   if (!data.ok) {
-    console.log("Zendesk API returned error: ", data.status, data.statusText);
     const error = new Error('Zendesk API Error');
     error.info = data.statusText;
     error.status = data.status || 500;
@@ -32,23 +34,10 @@ const getWithAuth = async (endpoint = 'api/v2/tickets/count') => {
   return dataInJson;
 };
 
-// const retryConfigs = {
-//   onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-//     if (retryCount >= 10) return;
+const retryConfigs = { revalidateOnFocus: false, shouldRetryOnError: false };
 
-//     if(error.status === 429) {
-//       // Retry after 1 Minute.
-//       console.log("hahahahahahah")
-//       setTimeout(() => revalidate({ retryCount }), 60000);
-//       return;
-//     }
-
-//     return;
-//   }
-// }
-
-const fetcher = async (url) => {
-  const res = await fetch(url);
+const fetcher = async (url, fetchFunction = fetch) => {
+  const res = await fetchFunction(url);
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the data.')
     error.info = (await res.json()).info || 'Unknown Error!';
@@ -58,7 +47,10 @@ const fetcher = async (url) => {
   return res.json()
 };
 
+const fetchWithCache = (api, fetchFunction = fetcher, config = retryConfigs) => useSWR(api, fetchFunction, config);
+
 export default {
   getWithAuth,
-  fetcher
+  retryConfigs,
+  fetchWithCache
 };
