@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Segment, Image, Button, TextArea, Card, CardContent, Grid, GridColumn, CardMeta } from "semantic-ui-react";
-import TicketDetailedView from "./ticketDetailed";
+// import TicketDetailedView from "./ticketDetailed";
 
-const Ticket = ({ ticketDetails } = {}) => {
+const Ticket = ({ ticketDetails, selected, onChange } = {}) => {
   const [ticket, setTicket] = useState({});
 
   useEffect(() => {
     setTicket(ticketDetails);
   }, []);
 
-  if (!Object.keys(ticketDetails).length) return <Button>Hello</Button>;
+  if (!Object.keys(ticketDetails).length) return <></>;
+
+  const styleBorder = {
+    borderLeftStyle: 'solid',
+    borderColor: 'teal',
+    borderWidth: '5px'
+  }
 
   return (
-    <Segment basic padded raised>
-      <Card onClick={() => console.log('bennie and the jets')} fluid>
+      <Card style={selected ? styleBorder : {}} onClick={onChange} fluid>
       <CardContent>
-      <Image floated='right' size='tiny' src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/1200px-Zendesk_logo.svg.png'/>
+      <Image floated='right' circular size='tiny' src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/1200px-Zendesk_logo.svg.png'/>
       <Card.Header>
         {ticketDetails.subject}
       </Card.Header>
@@ -26,11 +31,7 @@ const Ticket = ({ ticketDetails } = {}) => {
         Priority: {ticketDetails.priority || 'unspecified'}
       </Card.Description>
       </CardContent>
-      <CardContent extra>
-      <TicketDetailedView />
-      </CardContent>
       </Card>
-    </Segment>
   );
 };
 
