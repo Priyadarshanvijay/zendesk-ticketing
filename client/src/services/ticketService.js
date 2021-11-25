@@ -1,7 +1,7 @@
 import HTTPService from "./httpService";
 
 export default class TicketService {
-  constructor ({ httpService = HTTPService, baseURL = 'http://localhost:3002' } = {}) {
+  constructor ({ httpService = HTTPService, baseURL = 'http://192.168.1.17:3002' } = {}) {
     this.baseURL = baseURL;
     this.httpService = new httpService();
   }
