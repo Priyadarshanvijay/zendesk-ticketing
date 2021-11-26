@@ -20,7 +20,7 @@ const Ticket = ({ ticketDetails, selected, onChange } = {}) => {
   return (
       <Card style={selected ? styleBorder : {}} onClick={onChange} fluid>
       <CardContent>
-      <Image floated='right' circular size='tiny' src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/1200px-Zendesk_logo.svg.png'/>
+      {/* <Image floated='right' circular size='tiny' src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Zendesk_logo.svg/1200px-Zendesk_logo.svg.png'/> */}
       <Card.Header>
         {ticketDetails.subject}
       </Card.Header>
