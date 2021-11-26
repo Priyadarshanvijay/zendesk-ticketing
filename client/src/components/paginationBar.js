@@ -20,11 +20,11 @@ const PaginationBar = ({
       {(tickets || []).map((_, index) => {
         return (
           <Menu.Item
-          key = {calculatePageNumber(paginationOffset, index)}
-          name={String(calculatePageNumber(paginationOffset, index))}
-          active={activePage === calculatePageNumber(paginationOffset, index)}
+          key = {index + 1}
+          name={String(index + 1)}
+          active={activePage === (index + 1)}
           onClick={handlePaginationChange}
-        />
+        >{calculatePageNumber(paginationOffset, index)}</Menu.Item>
         )
       })}
       <Menu.Item name={'next'} onClick={loadTickets(false)} disabled={!hasNextItem}>»</Menu.Item>
