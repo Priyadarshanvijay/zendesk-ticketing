@@ -1,9 +1,8 @@
-import ZendeskService from "./zendesk.js";
 import ArrayUtils from "../utils/arrayUtils.js";
 
 export default class TicketService {
-  constructor({ zendeskService = ZendeskService } = {}) {
-    this.zendeskService = new zendeskService()
+  constructor({ zendeskService } = {}) {
+    this.zendeskService = zendeskService
   }
 
   getFirstThis() {

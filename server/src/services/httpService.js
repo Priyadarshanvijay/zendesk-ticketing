@@ -1,7 +1,5 @@
-import axios from "axios";
-
 export default class HTTPService {
-  constructor (client = axios) {
+  constructor (client) {
     this.client = client;
   }
 

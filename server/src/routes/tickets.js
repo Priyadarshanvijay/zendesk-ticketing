@@ -1,13 +1,11 @@
 import Express from 'express';
-import TicketService from '../services/tickets.js';
 
 const { Router } = Express;
 
 const route = Router();
 
 
-export default (app) => {
-  const ticketService = new TicketService();
+export default ({ app, ticketService }) => {
   app.use('/tickets', route);
 
   route.get('/', async (req, res) => {

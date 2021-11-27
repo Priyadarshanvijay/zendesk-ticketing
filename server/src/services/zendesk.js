@@ -1,15 +1,13 @@
-import HTTPService from "./httpService.js";
-
 export default class ZendeskService {
   constructor ({
-    zendeskURL = '', zendeskUsername = '', zendeskPassword = '', httpService = HTTPService
+    zendeskURL = '', zendeskUsername = '', zendeskPassword = '', httpService
   } = {}) {
-    this.zendeskURL = zendeskURL || process.env.ZENDESK_URL;
+    this.zendeskURL = zendeskURL;
     this.auth = {
-      username: zendeskUsername || process.env.USERNAME,
-      password: zendeskPassword || process.env.PASSWORD
+      username: zendeskUsername,
+      password: zendeskPassword
     };
-    this.httpService = new httpService()
+    this.httpService = httpService
   }
 
   async getTicketCount() {
