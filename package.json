@@ -5,7 +5,8 @@
   "description": "Backend server and Client to access Zendesk tickets",
   "main": "",
   "scripts": {
-    "start": "./runProject.sh"
+    "start": "./runProject.sh",
+    "testBackend": "cd ./server && npm run test" 
   },
   "author": "Priyadarshan Vijay",
   "license": "ISC"
