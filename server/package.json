@@ -5,14 +5,17 @@
   "description": "Backend server to access Zendesk services",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "mocha"
+    "server": "node index.js",
+    "test": "mocha",
+    "client": "npm run serve --prefix ../client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Priyadarshan Vijay",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
     "compression": "^1.7.4",
+    "concurrently": "^6.4.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",

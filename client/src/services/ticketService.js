@@ -13,8 +13,7 @@ export default class TicketService {
       before: before || undefined
     }));
     const url = this.baseURL + '/tickets';
-    const data = this.httpService.GetRequest({ url, queryParams });
-    return data;
+    return this.httpService.GetRequest({ url, queryParams });
   }
 
 }

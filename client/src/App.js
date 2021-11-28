@@ -6,6 +6,8 @@ import TopMenubar from './components/topMenubar';
 import ArrayUtils from './utils/arrayutils';
 import PaginationBar from './components/paginationBar';
 import TicketDetailedView from './components/ticketDetailed';
+import SelectFromLeft from './components/selectFromLeft';
+import ErrorPlaceholder from './components/errorPlaceholder';
 import '../src/style.css';
 
 const { useState, useEffect } = React;
@@ -25,6 +27,7 @@ function App() {
   const [prevCursor, setPrevCursor] = useState('');
   const [nextCursor, setNextCursor] = useState('');
   const [paginationOffset, setPaginationOffset] = useState(0);
+  const [error, setError] = useState('');
 
   const getCursorToFetch = (isBefore = false) => isBefore ? { before: prevCursor } : { after: nextCursor };
 
@@ -38,6 +41,12 @@ function App() {
     }
     return data;
   };
+
+  const noTicketsError = () => {
+    const e = new Error('No Tickets to Display');
+    e.message = 'No Tickets';
+    throw e;
+  }
 
   const updateCursors = (data) => {
     setHasMore(data?.meta?.has_more || false);
@@ -53,7 +62,15 @@ function App() {
     .then(insertTickets)
     .then(appendUsers)
     .then(changePaginationOffset(isBefore, isFirst))
-    .then(setLoadedTickets);
+    .then(setLoadedTickets)
+    .catch((e) => {
+      if (e.response?.status) {
+        setError(() => String(e.response.status));
+        return
+      } else {
+        setError(() => e.message);
+      }
+    });
   }
   
   useEffect(() => {
@@ -64,11 +81,12 @@ function App() {
     setHasLess(paginationOffset > 0);
     resetTicketSelect();
     setCurPage(1);
-    console.log("curPage", curPage);
-    console.log("isSelected", isSelected)
   }, [paginationOffset])
 
-  const insertTickets = (data) => {
+  const insertTickets = (data = {}) => {
+    if(!data.tickets || !data.tickets.length) {
+      noTicketsError();
+    }
     setTickets(() => {
       const chunksOfTwentyFive = ArrayUtils.arrayChunks(25)(data.tickets);
       return [...chunksOfTwentyFive];
@@ -97,6 +115,15 @@ function App() {
     const newAssignee = users[newTicket.assignee_id];
     setAssignee(newAssignee);
   };
+
+  if(error) {
+    return (
+      <>
+        <TopMenubar />
+        <ErrorPlaceholder error={error}/>
+      </>
+    )
+  }
   
   if (!loadedTickets) {
     return (
@@ -121,7 +148,7 @@ function App() {
         </Segment>
       </GridColumn>
       <GridColumn style={{ height: '100%' }}>
-      {!isNaN(isSelected) &&
+      {(isNaN(isSelected) && <SelectFromLeft /> )||
         <TicketDetailedView ticket={selectedTicket} requester={requester} assignee={assignee} />
       }
       </GridColumn>
