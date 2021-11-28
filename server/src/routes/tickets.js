@@ -14,7 +14,7 @@ export default ({ app, ticketService }) => {
       const tickets = await ticketService.getTickets({ before, after });
       return res.json(tickets).status(200);
     } catch (e) {
-      return res.status(e?.response?.status || 500).json(e?.response?.data);
+      return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
     }
   });
 
@@ -24,7 +24,7 @@ export default ({ app, ticketService }) => {
       const tickets = await ticketService.getUsers({ ids });
       return res.json(tickets).status(200);
     } catch (e) {
-      return res.status(e?.response?.status || 500).json(e?.response?.data);
+      return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
     }
   });
 
@@ -33,7 +33,7 @@ export default ({ app, ticketService }) => {
       const ticketCount = await ticketService.getTicketCount();
       return res.json({ ticketCount });
     } catch (e) {
-      return res.status(e?.response?.status || 500).json(e?.response?.data);
+      return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
     }
   });
 };

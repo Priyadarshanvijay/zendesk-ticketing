@@ -18,10 +18,11 @@ export default class HTTPService {
       return data;
     } catch (error) {
       // if (error.response) {
-      //   console.log(error.response.data);
-      //   console.log(error.response.status);
+      //   console.log("erd", error.response.data);
+      //   console.log("ers", error.response.status);
+      //   console.log(error.response.headers['retry-after'])
       // } else if (error.request) {
-      //   console.log(error.request);
+      //   console.log("er", error.request);
       // } else {
       //   console.log('Error', error.message);
       // }

@@ -23,17 +23,18 @@ export default class ZendeskService {
     const queryParams = JSON.parse(JSON.stringify({
       'page[size]': pageSize,
       'page[after]': after,
-      'page[before]': before
+      'page[before]': before,
+      include: 'users'
     }));
     return this.httpService.GetRequest({ url: listTicketEndpoint, auth: this.auth, queryParams });
   }
 
-  async listUsers({ ids }) {
-    const listUsersEndpoint = this.zendeskURL + '/users/show_many';
-    const queryParams = JSON.parse(JSON.stringify({
-      ids
-    }));
-    return this.httpService.GetRequest({ url: listUsersEndpoint, auth: this.auth, queryParams });
-  }
+  // async listUsers({ ids }) {
+  //   const listUsersEndpoint = this.zendeskURL + '/users/show_many';
+  //   const queryParams = JSON.parse(JSON.stringify({
+  //     ids
+  //   }));
+  //   return this.httpService.GetRequest({ url: listUsersEndpoint, auth: this.auth, queryParams });
+  // }
 
 }
