@@ -6,6 +6,7 @@
   "main": "",
   "scripts": {
     "start": "./runProject.sh",
+    "build": "./buildProject.sh",
     "testBackend": "cd ./server && npm run test" 
   },
   "author": "Priyadarshan Vijay",

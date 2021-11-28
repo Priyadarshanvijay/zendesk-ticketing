@@ -6,7 +6,8 @@ import routes from './routes/index.js';
 const expressLoader = ({ app }) => {
 
   app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    // To prevent CORS Errors
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });

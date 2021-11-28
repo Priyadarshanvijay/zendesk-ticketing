@@ -13,10 +13,16 @@ Steps:
 
 1. Install NPM and Node in accordance with the versions given above.
 2. Set up the `.env` files in both `/server` and `/client` using `sample.env` in each as a reference.
-3. Give the file "runProject.sh" execution permission:
+3. Give the file "runProject.sh" and "buildProject.sh execution permission:
 ```
     a. Mac:    chmod 755 runProject.sh
+               chmod 755 buildProject.sh
     b. Linux:  chmod +x runProject.sh
+               chmod +x buildProject.sh
+```
+4. Build the project and install dependencies:
+```
+    npm run build
 ```
 4. Run tests for backend using the command: 
 ```

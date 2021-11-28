@@ -1,5 +1,6 @@
-import React, { createRef } from 'react'
-import { Grid, Header, Segment, Feed, Divider, Label } from 'semantic-ui-react'
+import React from 'react'
+import { Grid, Header, Segment, Feed, Divider, Label, GridColumn } from 'semantic-ui-react'
+import StatusTag from './statusTag';
 
 function TicketDetailedView({ ticket, requester, assignee }) {
 
@@ -10,7 +11,15 @@ function TicketDetailedView({ ticket, requester, assignee }) {
   return (
     <Segment basic fluid>
       <Header>
-        {ticket.subject}
+        <Grid columns='2'>
+          <Grid.Column stretched>
+            {ticket.subject}
+          </Grid.Column>
+          <Grid.Column>
+            <StatusTag status={ticket.status} detailed={true} />
+            <Header as='h5' floated='right'>{ticket.priority || 'normal'}</Header>
+          </Grid.Column>
+        </Grid>
       </Header>
       <Divider />
       <Header style={{ fontSize: '1em' }}>
@@ -19,38 +28,38 @@ function TicketDetailedView({ ticket, requester, assignee }) {
       <Grid style={{ marginTop: '3em' }} columns='2'>
         <Grid.Column>
           <Feed>
-        <Header style={{ fontSize: '1em' }}>
-          Assignee </Header>
-          <Divider />
-        <Feed.Event>
-          {assignee.profilePhoto && <Feed.Label image={assignee.profilePhoto} />}
-          <Feed.Content>
-            <Feed.Summary>
-              {assignee.name}
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-        </Feed>
+            <Header style={{ fontSize: '1em' }}>
+              Assignee </Header>
+            <Divider />
+            <Feed.Event>
+              {assignee.profilePhoto && <Feed.Label image={assignee.profilePhoto} />}
+              <Feed.Content>
+                <Feed.Summary>
+                  {assignee.name}
+                </Feed.Summary>
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
         </Grid.Column>
         {/* <Grid.Column /> */}
-      <Grid.Column>
-      <Feed>
-        <Header style={{ fontSize: '1em' }}>
-          Requester </Header>
-          <Divider />
-        <Feed.Event>
-          {requester.profilePhoto && <Feed.Label image={requester.profilePhoto} />}
-          <Feed.Content>
-            <Feed.Summary>
-              {requester.name}
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-      </Feed>
-      </Grid.Column>
+        <Grid.Column>
+          <Feed>
+            <Header style={{ fontSize: '1em' }}>
+              Requester </Header>
+            <Divider />
+            <Feed.Event>
+              {requester.profilePhoto && <Feed.Label image={requester.profilePhoto} />}
+              <Feed.Content>
+                <Feed.Summary>
+                  {requester.name}
+                </Feed.Summary>
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
+        </Grid.Column>
       </Grid>
       <Segment basic>
-      {ticket.tags?.map((tag) => <Label size='mini' color='teal' tag>{tag}</Label>)}
+        {ticket.tags?.map((tag) => <Label size='mini' color='teal' tag>{tag}</Label>)}
       </Segment>
     </Segment>
   )
