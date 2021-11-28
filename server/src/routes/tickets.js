@@ -8,32 +8,22 @@ const route = Router();
 export default ({ app, ticketService }) => {
   app.use('/tickets', route);
 
-  route.get('/', async (req, res) => {
+  const catcher = (func) => async (req, res) => {
     try {
-      const { before, after } = req.query;
-      const tickets = await ticketService.getTickets({ before, after });
-      return res.json(tickets).status(200);
+      await func(req, res);
     } catch (e) {
       return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
     }
-  });
+  }
 
-  route.get('/users', async (req, res) => {
-    try {
-      const { ids } = req.query;
-      const tickets = await ticketService.getUsers({ ids });
-      return res.json(tickets).status(200);
-    } catch (e) {
-      return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
-    }
-  });
+  route.get('/', catcher(async (req, res) => {
+    const { before, after } = req.query;
+    const tickets = await ticketService.getTickets({ before, after });
+    return res.status(200).json(tickets);
+  }));
 
-  route.get('/count', async (req, res) => {
-    try {
+  route.get('/count', catcher(async (req, res) => {
       const ticketCount = await ticketService.getTicketCount();
-      return res.json({ ticketCount });
-    } catch (e) {
-      return res.status(e?.response?.status || 500).json(e?.response?.data || { error: 'Unexpected Error Occured' });
-    }
-  });
+      return res.status(200).json({ ticketCount });
+  }));
 };
