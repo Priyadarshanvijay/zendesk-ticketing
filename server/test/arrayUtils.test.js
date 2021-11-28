@@ -1,5 +1,5 @@
 import chai from 'chai';
-import ArrayUtils from '../../src/utils/arrayUtils.js';
+import ArrayUtils from '../src/utils/arrayUtils.js';
 
 const { expect } = chai;
 

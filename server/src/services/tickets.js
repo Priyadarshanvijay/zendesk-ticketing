@@ -8,12 +8,8 @@ export default class TicketService {
     return this.zendeskService.getTicketCount();
   }
 
-  getTickets({ before, after }) {
+  getTickets({ before, after } = {}) {
     return this.zendeskService.listTickets({ before, after })
       .then(UserUtils.appendUserInfo);
-  }
-
-  getUsers({ ids }) {
-    return this.zendeskService.listUsers({ ids });
   }
 }

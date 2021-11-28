@@ -15,7 +15,7 @@ export default class ZendeskService {
     
     return this.httpService.GetRequest({ url: ticketCountEndpoint, auth: this.auth })
       .then(({ count }) => count?.value);
-  }
+  };
 
   async listTickets({ pageSize = 100, before = '', after = '' } = {}) {
     if (before && after) throw new Error('Cannot take as input both next and previous pointer');
@@ -27,14 +27,6 @@ export default class ZendeskService {
       include: 'users'
     }));
     return this.httpService.GetRequest({ url: listTicketEndpoint, auth: this.auth, queryParams });
-  }
+  };
 
-  // async listUsers({ ids }) {
-  //   const listUsersEndpoint = this.zendeskURL + '/users/show_many';
-  //   const queryParams = JSON.parse(JSON.stringify({
-  //     ids
-  //   }));
-  //   return this.httpService.GetRequest({ url: listUsersEndpoint, auth: this.auth, queryParams });
-  // }
-
-}
+};

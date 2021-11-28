@@ -115,7 +115,16 @@ export default class Client {
             'report_csv': true,
             'user_fields': {}
           }
-        ]
+        ],
+        meta: {
+          has_more: true,
+          after_cursor: 'eyJvIjoibmljZV9pZCIsInYiOiJhV1FBQUFBQUFBQUEifQ==',
+          before_cursor: 'eyJvIjoibmljZV9pZCIsInYiOiJhUUVBQUFBQUFBQUEifQ=='
+        },
+        links: {
+          prev: 'https://zccpriyadarshan.zendesk.com/api/v2/tickets?include=users&page%5Bbefore%5D=eyJvIjoibmljZV9pZCIsInYiOiJhUUVBQUFBQUFBQUEifQ%3D%3D&page%5Bsize%5D=100',
+          next: 'https://zccpriyadarshan.zendesk.com/api/v2/tickets?include=users&page%5Bafter%5D=eyJvIjoibmljZV9pZCIsInYiOiJhV1FBQUFBQUFBQUEifQ%3D%3D&page%5Bsize%5D=100'
+        }
       },
       headers: {
         ['x-rate-limit']: 400,
