@@ -46,3 +46,11 @@ I could've taken vaious other approaches like:
 3. Followed the same approach I have used, just instead of replacing the previous 100 tickets with the new one's, I could've added the new ones with the old ones. While this would've prevented a network call when clicking the previous button (to fetch previous 100 tickets), this would've used a lot of memory after continuous fetches, and also, there was a chance of data being stale.
 
 I used Semantic-UI for the components and syling as it is easy to read the documentation, clean, has a dedicated library for React, and needs very minimal customization.
+
+## Backend
+
+I used Node.js because it has faster development time, requires less setup, and has ample community support available in case I got stuck anywhere. The express framework makes it very easy to create API endpoints very fastly with minimal code. I kind of followed the structure mentioned in this blog post: https://softwareontheroad.com/ideal-nodejs-project-structure/ 
+
+This structure helped a lot in avoiding sphagetti code, avoiding duplication, and increasing testablility without using any additional library for mocking network calls. While this project doesn't includes any Database, by using this structure, we could've avoided the use of any dedicated db for testing and all our testing data would've stayed in the code. 
+
+The backend in a nutshell, acts like a proxy for our frontend to the zendesk API.
