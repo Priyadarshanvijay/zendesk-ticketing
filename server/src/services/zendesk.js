@@ -20,10 +20,16 @@ export default class ZendeskService {
   async listTickets({ pageSize = 100, before = '', after = '' } = {}) {
     if (before && after) throw new Error('Cannot take as input both next and previous pointer');
     const listTicketEndpoint = this.zendeskURL + '/tickets';
+    // After this, queryParams will contain only one of page[after] or
+    // page[before] as a key because JSON.parse after JSON.stringify will
+    // remove keys with values as undefined.
+    // Also, instead of doing additional user request for retriving data of users,
+    // we can simply use the include parameter supported by the api to return
+    // related data
     const queryParams = JSON.parse(JSON.stringify({
       'page[size]': pageSize,
-      'page[after]': after,
-      'page[before]': before,
+      'page[after]': after || undefined,
+      'page[before]': before || undefined,
       include: 'users'
     }));
     return this.httpService.GetRequest({ url: listTicketEndpoint, auth: this.auth, queryParams });

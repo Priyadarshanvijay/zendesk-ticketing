@@ -12,6 +12,7 @@ export default () => {
   const zendeskURL = process.env.ZENDESK_URL;
   const zendeskUsername = process.env.ZENDESK_USERNAME;
   const zendeskPassword = process.env.ZENDESK_PASSWORD;
+  // Creating httpService with client of our choice as axios
   const httpService = new HTTPService(axios);
   const zendeskService = new ZendeskService({
     zendeskURL, zendeskUsername, zendeskPassword, httpService

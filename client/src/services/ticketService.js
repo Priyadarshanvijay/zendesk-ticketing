@@ -16,4 +16,10 @@ export default class TicketService {
     return this.httpService.GetRequest({ url, queryParams });
   }
 
+  getTicketCount () {
+    const url = this.baseURL + '/tickets/count';
+    return this.httpService.GetRequest({ url })
+    .then(({ ticketCount }) => +ticketCount || 0);
+  }
+
 }

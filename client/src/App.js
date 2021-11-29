@@ -1,13 +1,14 @@
 import React from 'react';
 import TicketService from './services/ticketService';
 import Ticket from './components/ticket';
-import { Container, GridColumn, Grid, Segment } from 'semantic-ui-react';
+import { Container, GridColumn, Grid, Segment, Header } from 'semantic-ui-react';
 import TopMenubar from './components/topMenubar';
 import ArrayUtils from './utils/arrayutils';
 import PaginationBar from './components/paginationBar';
 import TicketDetailedView from './components/ticketDetailed';
 import SelectFromLeft from './components/selectFromLeft';
 import ErrorPlaceholder from './components/errorPlaceholder';
+import TicketRange from './components/ticketRange';
 import '../src/style.css';
 
 const { useState, useEffect } = React;
@@ -15,6 +16,7 @@ const { useState, useEffect } = React;
 function App() {
   const ticketService = new TicketService();
   const [tickets, setTickets] = useState([]);
+  const [totalTickets, setTotalTickets] = useState(0);
   const [users, setUsers] = useState({});
   const [loadedTickets, setLoadedTickets] = useState(false);
   const [isSelected, setIsSelected] = useState(NaN);
@@ -55,6 +57,15 @@ function App() {
     return data;
   }
 
+  const handleError = (e) => {
+    if (e.response?.status) {
+      setError(() => String(e.response.status));
+      return;
+    } else {
+      setError(() => e.message);
+    }
+  };
+
   const loadTickets = (isBefore = false, isFirst = false) => () => {
     setLoadedTickets(false);
     return ticketService.getTickets(getCursorToFetch(isBefore))
@@ -63,18 +74,15 @@ function App() {
     .then(appendUsers)
     .then(changePaginationOffset(isBefore, isFirst))
     .then(setLoadedTickets)
-    .catch((e) => {
-      if (e.response?.status) {
-        setError(() => String(e.response.status));
-        return
-      } else {
-        setError(() => e.message);
-      }
-    });
+    .catch(handleError);
   }
+
+  const countTickets = () => ticketService.getTicketCount()
+    .then((count) => setTotalTickets((prev) => count));
   
   useEffect(() => {
-    loadTickets(false, true)();
+    countTickets().then(loadTickets(false, true))
+    .catch(handleError);
   }, []);
 
   useEffect(() => {
@@ -143,6 +151,7 @@ function App() {
     <Grid columns='2' style={{ height:'100%' }} stackable>
       <GridColumn style={{ height: '100%', overflow: 'auto', paddingTop: '0em' }}>
         <Segment basic>
+          <TicketRange curPage={curPage} paginationOffset={paginationOffset} totalTickets={totalTickets}/>
           {(tickets?.[(curPage - 1) % 4] || []).map((ticket, index) => (<Ticket 
           selected={isSelected === index} onChange = {selectTicket(index)} key={ticket.id} ticketDetails={ticket}></Ticket>))}
         </Segment>
